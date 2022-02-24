@@ -1,0 +1,24 @@
+version: '3.4'
+
+services:
+  inventoryservice:
+    image: ${DOCKER_REGISTRY-}inventoryservice
+    build:
+      context: .
+      dockerfile: Dockerfile
+   
+
+    depends_on:
+      - sqlservercustomerservice
+  sqlservercustomerservice:  
+    image: mcr.microsoft.com/mssql/server 
+    hostname: 'sqlservercustomerservice'  
+    environment:  
+      ACCEPT_EULA: 'Y' 
+      SA_PASSWORD: "Vignesh@95"  
+    volumes:  
+      - ./customerapi:/var/opt/mssql/data  
+    ports:  
+      - '1406:1433'  
+    expose:  
+      - 1406 
